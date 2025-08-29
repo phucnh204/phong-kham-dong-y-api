@@ -1,0 +1,11 @@
+- cài các câu lệnh của nest js : npm install -g @nestjs/cli
+
+- Leeenhj ko bij looix LF/CRLF: 
+    'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
+
+- Cài TypeORM: npm i @nestjs/typeorm typeorm mysql2
