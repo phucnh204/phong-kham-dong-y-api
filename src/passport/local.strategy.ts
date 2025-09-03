@@ -4,7 +4,6 @@ import { Strategy } from 'passport-local';
 // import { AuthService } from 'src/modules/auth/auth.service';
 import { UserService } from 'src/modules/users/user.service';
 import * as bcrypt from 'bcrypt';
-
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
