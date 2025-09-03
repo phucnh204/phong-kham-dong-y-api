@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './modules/user/user.module';
+import { UserModule } from './modules/users/user.module';
 
 import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './modules/user/user.entity';
+import { User } from './modules/users/entities/user.entity';
 import { ServicesModule } from './modules/services/services.module';
 import { Service } from './modules/services/entities/service.entity';
 import { DoctorsModule } from './modules/doctors/doctors.module';
@@ -18,16 +19,22 @@ import { Booking } from './modules/booking/entities/booking.entity';
   imports: [
     UserModule,
     AuthModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'phong_kham_dong_y',
-      entities: [User, Service, Doctor, Booking],
-      synchronize: true,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get<string>('DB_HOST'),
+        port: parseInt(config.get<string>('DB_PORT') || '3306', 10),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_DATABASE'),
+        entities: [User, Service, Doctor, Booking],
+        synchronize: true,
+      }),
     }),
+
     ServicesModule,
     DoctorsModule,
     BookingModule,

@@ -9,3 +9,7 @@
       ],
 
 - Cài TypeORM: npm i @nestjs/typeorm typeorm mysql2
+
+- cài jwwt và bcrypt maxc hóa mật khẩu: 
+  + npm i @nestjs/passport @nestjs/jwt passport passport-local passport-jwt bcrypt
+  + npm i @types/passport-jwt @types/passport-local --save-dev
