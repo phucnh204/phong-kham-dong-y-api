@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/users/user.module';
@@ -14,6 +14,7 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
 import { Doctor } from './modules/doctors/entities/doctor.entity';
 import { BookingModule } from './modules/booking/booking.module';
 import { Booking } from './modules/booking/entities/booking.entity';
+import { AuthMiddleware } from './middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -42,4 +43,10 @@ import { Booking } from './modules/booking/entities/booking.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: 'admin/*', method: RequestMethod.ALL });
+  }
+}

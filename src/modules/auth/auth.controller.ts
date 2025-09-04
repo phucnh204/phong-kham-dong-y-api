@@ -5,6 +5,7 @@ import {
   Get,
   Post,
   Req,
+  Res,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LocalAuthGuard } from 'src/guards/local-auth-guard';
 import type { AuthenticatedRequest } from './type';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -37,9 +39,36 @@ export class AuthController {
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
-  login(@Req() req: AuthenticatedRequest) {
-    return this.authService.login(req.user);
+  async login(
+    @Req() req: AuthenticatedRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token, refresh_token } = await this.authService.login(
+      req.user,
+    );
+
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60,
+    });
+
+    res.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return { message: 'Đăng nhập thành công' };
   }
+
+  // @Post('/login')
+  // @UseGuards(LocalAuthGuard)
+  // login(@Req() req: AuthenticatedRequest) {
+  //   return this.authService.login(req.user);
+  // }
 
   @Post('refresh-token')
   async refreshToken(@Body() { refreshToken }: { refreshToken: string }) {
@@ -54,6 +83,14 @@ export class AuthController {
     }
 
     return this.authService.login(user);
+  }
+
+  @Post('/logout')
+  // @UseGuards(JwtAuthGuard)
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    res.clearCookie('refresh_token');
+    return { message: 'Đăng xuất thành công' };
   }
 
   @Get('/profile')
