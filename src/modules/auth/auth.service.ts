@@ -19,6 +19,12 @@ export class AuthService {
 
   // Tạo và trả về access token và refresh token khi login
   async login(user: JwtUserPayload) {
+    // console.log('User:', user); // Add this for debugging
+
+    // if (!user || !user.username || !user.id) {
+    //   throw new Error('Invalid user data');
+    // }
+
     const payload = { username: user.username, sub: user.id };
 
     //

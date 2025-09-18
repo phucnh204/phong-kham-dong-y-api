@@ -12,10 +12,11 @@ import {
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { LocalAuthGuard } from 'src/guards/local-auth-guard';
+// import { LocalAuthGuard } from 'src/guards/local-auth-guard';
 import type { AuthenticatedRequest } from './type';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import type { Response } from 'express';
+import { LocalAuthGuard } from 'src/guards/local-auth-guard';
 
 @Controller('auth')
 export class AuthController {
@@ -61,7 +62,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
-    return { message: 'Đăng nhập thành công' };
+    return { access_token, refresh_token };
   }
 
   // @Post('/login')

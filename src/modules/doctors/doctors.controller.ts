@@ -8,9 +8,14 @@ import {
   Delete,
   ValidationPipe,
   UsePipes,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { DoctorsService } from './doctors.service';
 import { Doctor } from './entities/doctor.entity';
+
+// import { LocalAuthGuard } from 'src/guards/local-auth-guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('doctors')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -18,7 +23,8 @@ export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
   @Post()
-  create(@Body() createDoctorDto: Partial<Doctor>) {
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createDoctorDto: Partial<Doctor>, @Req() req: Request) {
     return this.doctorsService.create(createDoctorDto);
   }
 

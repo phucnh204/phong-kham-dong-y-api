@@ -8,9 +8,11 @@ import {
   Delete,
   ValidationPipe,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 // import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Controller('services')
@@ -19,6 +21,7 @@ export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
