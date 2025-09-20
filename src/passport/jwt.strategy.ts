@@ -4,6 +4,10 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 
 export interface JwtUserPayload {
   username: string;
+  name: string;
+  email: string;
+  avatar: string;
+  role: string;
   sub: number;
 }
 

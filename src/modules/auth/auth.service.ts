@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { ConsoleLogger, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -38,9 +38,26 @@ export class AuthService {
       refreshToken: hashedRefreshToken,
     });
 
+    const dbUser = await this.userRepository.findOne({
+      where: { id: user.id },
+    });
+
+    // Nếu cần lấy qua service: const dbUser = await this.userService.findById(user.id);
+
+    const safeUser = dbUser && {
+      id: dbUser.id,
+      username: dbUser.username,
+      // name: dbUser.name,
+      email: dbUser.email,
+      role: dbUser.role,
+      // avatar: dbUser.avatar,
+    };
+    console.log('Trả về user:', safeUser);
+
     return {
       access_token: this.jwtService.sign(payload),
       refresh_token: refreshToken,
+      user: safeUser,
     };
   }
 

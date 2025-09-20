@@ -44,7 +44,7 @@ export class AuthController {
     @Req() req: AuthenticatedRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token, refresh_token } = await this.authService.login(
+    const { access_token, refresh_token, user } = await this.authService.login(
       req.user,
     );
 
@@ -62,7 +62,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
-    return { access_token, refresh_token };
+    return { access_token, refresh_token, user: user };
   }
 
   // @Post('/login')
