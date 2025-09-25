@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { Booking } from './entities/booking.entity';
+import { UpdateBookingDto } from './dto/update-booking.dto';
 
 @Injectable()
 export class BookingsService {
@@ -29,5 +30,19 @@ export class BookingsService {
 
   findOne(id: number) {
     return this.bookingRepo.findOneBy({ id });
+  }
+
+  // Cập nhật lịch hẹn
+  async update(id: number, dto: UpdateBookingDto) {
+    await this.bookingRepo.update(id, dto);
+    return this.findOne(id);
+  }
+
+  // Xóa lịch hẹn
+  async remove(id: number) {
+    const booking = await this.findOne(id);
+    if (!booking) throw new Error('Booking not found');
+    await this.bookingRepo.delete(id);
+    return { deleted: true };
   }
 }

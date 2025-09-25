@@ -30,4 +30,11 @@ export class Booking {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column({
+    type: 'enum',
+    enum: ['dang_cho', 'cho_xu_ly', 'da_hoan_thanh', 'da_huy'],
+    default: 'cho_xu_ly',
+  })
+  status: 'dang_cho' | 'cho_xu_ly' | 'da_hoan_thanh' | 'da_huy';
 }

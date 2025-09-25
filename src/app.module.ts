@@ -15,9 +15,11 @@ import { Doctor } from './modules/doctors/entities/doctor.entity';
 import { BookingModule } from './modules/booking/booking.module';
 import { Booking } from './modules/booking/entities/booking.entity';
 import { AuthMiddleware } from './middleware/auth.middleware';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
+    UploadModule,
     UserModule,
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
@@ -39,6 +41,7 @@ import { AuthMiddleware } from './middleware/auth.middleware';
     ServicesModule,
     DoctorsModule,
     BookingModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

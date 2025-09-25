@@ -29,4 +29,7 @@ export class CreateBookingDto {
 
   @IsOptional()
   message?: string;
+
+  @IsOptional()
+  status?: 'cho_xu_ly';
 }

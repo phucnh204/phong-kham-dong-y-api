@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   ValidationPipe,
   UsePipes,
   UseGuards,
@@ -13,7 +14,7 @@ import {
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-// import { UpdateServiceDto } from './dto/update-service.dto';
+import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Controller('services')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -27,8 +28,14 @@ export class ServicesController {
   }
 
   @Get()
-  findAll() {
-    return this.servicesService.findAll();
+  findAll(
+    @Query('type') type?: string,
+    @Query('minPrice') minPrice?: string,
+    @Query('maxPrice') maxPrice?: string,
+    @Query('isActive') isActive?: string,
+  ) {
+    // Truyền filter xuống service layer
+    return this.servicesService.findAll({ type, minPrice, maxPrice, isActive });
   }
 
   @Get(':id')
@@ -37,11 +44,13 @@ export class ServicesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: any) {
+  @UseGuards(JwtAuthGuard)
+  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
     return this.servicesService.update(+id, updateServiceDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.servicesService.remove(+id);
   }
