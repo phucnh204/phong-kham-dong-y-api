@@ -9,6 +9,12 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
+  role: string;
+
+  @IsString()
+  isActive: boolean;
+
+  @IsString()
   @MinLength(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' })
   password: string;
 }

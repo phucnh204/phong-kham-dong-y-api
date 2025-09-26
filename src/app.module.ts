@@ -16,6 +16,8 @@ import { BookingModule } from './modules/booking/booking.module';
 import { Booking } from './modules/booking/entities/booking.entity';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { UploadModule } from './modules/upload/upload.module';
+import { PersonModule } from './modules/person/person.module';
+import { Person } from './modules/person/entities/person.entity';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { UploadModule } from './modules/upload/upload.module';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
-        entities: [User, Service, Doctor, Booking],
+        entities: [User, Service, Doctor, Booking, Person],
         synchronize: true,
       }),
     }),
@@ -42,6 +44,7 @@ import { UploadModule } from './modules/upload/upload.module';
     DoctorsModule,
     BookingModule,
     UploadModule,
+    PersonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

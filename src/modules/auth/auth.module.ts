@@ -10,10 +10,11 @@ import { User } from '../users/entities/user.entity';
 import { UserModule } from '../users/user.module';
 import { LocalStrategy } from 'src/passport/local.strategy';
 import { JwtStrategy } from 'src/passport/jwt.strategy';
+import { Person } from '../person/entities/person.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Person]),
     forwardRef(() => UserModule),
     // UserModule,
     ConfigModule,

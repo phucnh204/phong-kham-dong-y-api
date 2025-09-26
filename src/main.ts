@@ -15,7 +15,7 @@ async function bootstrap() {
   //app.useStaticAssets(join(__dirname, '..', 'public'));
   app.use(
     '/assets/images',
-    express.static(join(__dirname, '..', 'assets/images')),
+    express.static(join(__dirname, '..', 'public/assets/images')),
   );
   app.use(cookieParser());
   await app.listen(8080);
