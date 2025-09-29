@@ -25,7 +25,7 @@ export class AuthService {
     //   throw new Error('Invalid user data');
     // }
 
-    const payload = { username: user.username, sub: user.id };
+    const payload = { username: user.username, sub: user.id, role: user.role };
 
     //
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });

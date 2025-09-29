@@ -19,7 +19,7 @@ export class Person {
   @Column({ nullable: true })
   specialization: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: true })
   imageUrl?: string;
 
   @Column({ type: 'text', nullable: true })
@@ -29,7 +29,7 @@ export class Person {
   isActive: boolean;
 
   @Column({ default: 'staff' })
-  role: string; // 'doctor' | 'nurse' | 'pharmacist' | 'receptionist' | 'staff'
+  role: string; // 'doctor' | 'nurse' | 'pharmacist'  | 'staff'
 
   @Column({ nullable: true })
   userId: number;

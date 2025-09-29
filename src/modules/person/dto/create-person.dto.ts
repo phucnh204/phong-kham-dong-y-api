@@ -17,5 +17,5 @@ export class CreatePersonWithUserDto {
   @IsOptional() @IsString() imageUrl?: string;
   @IsOptional() @IsString() description?: string;
   @IsOptional() isActive?: boolean;
-  @IsString() role: string; // 'doctor', ...
+  @IsString() role: string;
 }

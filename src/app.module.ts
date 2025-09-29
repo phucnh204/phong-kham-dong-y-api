@@ -18,6 +18,8 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 import { UploadModule } from './modules/upload/upload.module';
 import { PersonModule } from './modules/person/person.module';
 import { Person } from './modules/person/entities/person.entity';
+import { PatientModule } from './modules/patient/patient.module';
+import { Patient } from './modules/patient/entities/patient.entity';
 
 @Module({
   imports: [
@@ -35,7 +37,7 @@ import { Person } from './modules/person/entities/person.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
-        entities: [User, Service, Doctor, Booking, Person],
+        entities: [User, Service, Doctor, Booking, Person, Patient],
         synchronize: true,
       }),
     }),
@@ -45,6 +47,7 @@ import { Person } from './modules/person/entities/person.entity';
     BookingModule,
     UploadModule,
     PersonModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

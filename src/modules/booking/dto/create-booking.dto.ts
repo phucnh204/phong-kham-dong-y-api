@@ -31,5 +31,5 @@ export class CreateBookingDto {
   message?: string;
 
   @IsOptional()
-  status?: 'cho_xu_ly';
+  status?: 'dang_cho';
 }
